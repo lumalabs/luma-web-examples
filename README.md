@@ -1,6 +1,6 @@
 # ![luma-logo](assets/logo.svg) Luma WebGL Examples
 
-Luma splats is available as a [npm package](https://www.npmjs.com/package/luma-web). It includes `LumaSplatsWebGL`, which is a WebGL-only implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood
+`luma-web` is available as a [npm package](https://www.npmjs.com/package/luma-web). It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood
 
 For these examples we'll use [Three.js](https://threejs.org/)
 
