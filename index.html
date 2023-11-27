@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title></title>
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+			overflow: hidden;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+
+			color: #2d2d2d;
+			background-color: #111111;
+
+			/* sans-serif */
+			font-family: -apple-system, BlinkMacSystemFont, "Open Sans", "Helvetica Neue", sans-serif;
+		}
+
+		#react-root {
+			width: 100%;
+			height: 100%;
+
+			display: flex;
+			flex-direction: row;
+			gap: 2px;
+		}
+
+
+		.demo-menu {
+			background: white;
+
+			border-radius: 10px;
+
+			padding: 60px;
+			width: 100%;
+
+			font-size: 1.1em;
+
+			/* subtle shadow */
+			box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+			overflow: auto;
+
+			/* smooth scroll */
+			scroll-behavior: smooth;
+		}
+
+		.demo-menu pre > pre {
+			border-radius: 10px !important;
+			padding: 1.5em !important;
+		}
+
+		.demo-menu h1 {
+			text-align: center;
+			font-size: 2.5em;
+			margin: 0 0 1.2em 0;
+		}
+
+		.demo-menu h2 {
+			padding-left: 20px;
+			padding-right: 20px;
+			margin-left: -20px;
+			margin-right: -20px;
+			
+			display: flex;
+			justify-content: space-between;
+			margin-top: 2.5em;
+			cursor: pointer;
+			border-radius: 10px;
+			padding-top: 10px;
+			padding-bottom: 10px;
+
+			font-size: 1.8em;
+
+			transition: all 0.2s ease-in-out;
+		}
+
+		.demo-menu h2:hover {
+			background-color: #f1f1f1;
+		}
+
+		.demo-menu h2.active {
+			/* background */
+			background: #3f8fcc;
+		}
+
+		.demo-menu h2.active a {
+			/* color */
+			color: white;
+		}
+		
+		button {
+			cursor: pointer;
+			border: none;
+			border-radius: 5px;
+			padding: 10px;
+			background-color: #3f8fcc;
+			color: white;
+			transition: all 0.2s ease-in-out;
+			opacity: 1;
+		}
+
+		a {
+			color: #007cc1;
+			text-decoration: none;
+			cursor: pointer;
+		}
+
+		a:hover {
+			color: #089eef;
+		}
+
+		/* For small screen widths change flex-direction to column */
+		@media (max-width: 768px) {
+			#react-root {
+				flex-direction: column;
+			}
+
+			.demo-menu {
+				width: auto;
+				height: 100%;
+				padding: 25px;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div id="react-root"></div>
+	<script src="dist/index.js"></script>
+</body>
+</html>
