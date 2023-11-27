@@ -1,4 +1,4 @@
-# ![luma-logo](assets/logo.svg) Luma WebGL Examples
+# [![luma-logo](assets/logo.svg)](https://lumalabs.ai) Luma WebGL Examples
 
 `luma-web` is a [npm package](https://www.npmjs.com/package/luma-web) for rendering photoreal interactive scenes captured by the [Luma app](https://lumalabs.ai/). It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood. For these examples we'll use [Three.js](https://threejs.org/).
 
@@ -86,7 +86,7 @@ scene.background = scene.fog.color;
 
 ## Scene Lighting
 
-It's possible to illuminate three.js scenes with luma splats. To do so, we can render a cubemap of the splats and use it as the scene environment. This is done by calling `captureCubeMap` on the splats object. We first wait for the splats to fully load before capturing the cubemap. To ensure the splats are fully rendered at the time of capture, we disable the loading animation.
+It's possible to illuminate three.js scenes with Luma splats. To do so, we can render a cubemap of the splats and use it as the scene environment. This is done by calling `captureCubeMap` on the splats object. We first wait for the splats to fully load before capturing the cubemap. To ensure the splats are fully rendered at the time of capture, we disable the loading animation.
 
 **[DemoLighting.ts](./src/DemoLighting.ts)**
 ```ts
