@@ -1,8 +1,6 @@
 # ![luma-logo](assets/logo.svg) Luma WebGL Examples
 
-`luma-web` is a [npm package](https://www.npmjs.com/package/luma-web) for rendering photoreal interactive scenes captured by the Luma app. It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood
-
-For these examples we'll use [Three.js](https://threejs.org/)
+`luma-web` is a [npm package](https://www.npmjs.com/package/luma-web) for rendering photoreal interactive scenes captured by the [Luma app](https://lumalabs.ai/). It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood. For these examples we'll use [Three.js](https://threejs.org/).
 
 ### Contents
 - [Getting Started](#getting-started)
@@ -34,7 +32,7 @@ Or if using a browser, include the script:
 <script src="https://unpkg.com/@lumai/luma-web"></script>
 ```
 
-Then in your code, import the `LumaSplatsThree` class, set the source, and add it to your scene:
+Then in your code, import the `LumaSplatsThree` class, create an instance with a source, and add it to your scene.
 
 `source` can be either of:
 - URL to a capture on [lumalabs.ai](https://lumalabs.ai)
@@ -51,7 +49,7 @@ scene.add(splats);
 scene.add(createText());
 ```
 
-Splats will integrate with the three.js rendering pipeline and interact with other objects via depth testing. However splats do not currently write to the depth buffer themselves.
+Splats will integrate with the three.js rendering pipeline and interact with other objects via depth testing. However, splats do not currently write to the depth buffer themselves.
 
 ### Performance tips
 
