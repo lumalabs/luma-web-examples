@@ -10,6 +10,8 @@ export async function downloadArtifacts(splatLoader: LumaSplatsLoader, onProgres
 		'gs_web_gauss2',
 		'gs_web_sh',
 		'gs_web_webmeta',
+		'gs_compressed_meta',
+     	'gs_compressed',
 		'with_background_gs_camera_params',
 		'semantics',
 	];
