@@ -109,7 +109,7 @@ splats.onLoad = () => {
 
 todo
 
-**[DemoCustomShader.ts](./src/DemoCustomShader.ts)**
+**[DemoCustomShaders.ts](./src/DemoCustomShaders.ts)**
 ```ts
 splats.setShaderHooks({
 	vertexShaderHooks: {
@@ -164,7 +164,7 @@ function Scene() {
 }
 ```
 
-## Transparency
+## Transmission
 
 todo
 
