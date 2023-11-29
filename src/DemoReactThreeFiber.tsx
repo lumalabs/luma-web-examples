@@ -4,8 +4,6 @@ import React from 'react';
 import './LumaSplatsReact';
 
 export function DemoReactThreeFiber() {
-	console.log('DemoReactThreeFiber');
-
 	const gridConfig = {
 		gridSize: [10.5, 10.5],
 		cellSize: 0.6,
@@ -31,6 +29,7 @@ export function DemoReactThreeFiber() {
 
 		<lumaSplats
 			semanticsMask={LumaSplatsSemantics.FOREGROUND}
+			// Emmanuel Frémiet - Jeanne d’Arc @HouseofJJD
 			source='https://lumalabs.ai/capture/822bac8d-70d6-404e-aaae-f89f46672c67'
 			position={[-1, 0, 0]}
 			scale={0.5}
@@ -41,6 +40,7 @@ export function DemoReactThreeFiber() {
 		>
 			<lumaSplats
 				semanticsMask={LumaSplatsSemantics.FOREGROUND}
+				// Camille Alaphilippe - La femme au singe @HouseofJJD
 				source='https://lumalabs.ai/capture/b46ae7cf-0e40-431a-9d7e-45bc3ec516c6'
 				position={[1, 0, 0]}
 				scale={0.5}

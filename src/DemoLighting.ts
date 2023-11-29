@@ -6,26 +6,11 @@ import { EnvironmentProbes } from "./util/EnvironmentProbes";
 
 export function DemoLighting(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
 	let splats = new LumaSplatsThree({
+		// Arosa Hörnli - Switzerland @splnlss
 		source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',
-		// source: 'https://lumalabs.ai/capture/b5faf515-7932-4000-ab23-959fc43f0d94',
 		// disable loading animation so model is fully rendered after onLoad
 		loadingAnimationEnabled: false,
 	});
-
-	/*
-	let lastEnvCaptureTime = performance.now();
-	splats.onProgress = (progress) => {
-		let t_ms = performance.now();
-		let complete = progress.progress === 1;
-		if (complete || (t_ms - lastEnvCaptureTime) > 250) {
-			let capturedTexture = splats.captureCubeMap(renderer);
-			scene.environment = capturedTexture;
-			scene.background = capturedTexture;
-			scene.backgroundBlurriness = 0.5;
-			lastEnvCaptureTime = t_ms;
-		}
-	}
-	*/
 
 	splats.onLoad = () => {
 		let capturedTexture = splats.captureCubeMap(renderer);
@@ -33,16 +18,6 @@ export function DemoLighting(renderer: WebGLRenderer, scene: Scene, camera: Came
 		scene.background = capturedTexture;
 		scene.backgroundBlurriness = 0.5;
 	}
-
-	// debug issue
-	// setInterval(() => {
-	// 	console.log('capture');
-	// 	scene.environment?.dispose();
-	// 	let capturedTexture = splats.captureCubeMap(renderer);
-	// 	scene.environment = capturedTexture;
-	// 	scene.background = capturedTexture;
-	// 	scene.backgroundBlurriness = 0.5;
-	// }, 1000);
 
 	scene.add(splats);
 

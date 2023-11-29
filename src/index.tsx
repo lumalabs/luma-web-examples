@@ -16,6 +16,7 @@ import { DemoReactThreeFiber } from './DemoReactThreeFiber';
 import readme from '../README.md';
 import { DemoBackgroundRemoval } from './DemoBackgroundRemoval';
 import { DemoTransmission } from './DemoTransmission';
+import { DemoVR } from './DemoVR';
 
 type DemoFn =
 	(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI)
@@ -29,6 +30,7 @@ const demos = {
 		"scene-lighting": DemoLighting,
 		"custom-shaders": DemoCustomShaders,
 		"transmission": DemoTransmission,
+		"vr": DemoVR,
 	} as Record<string, DemoFn>,
 	react: {
 		"react-three-fiber": DemoReactThreeFiber
@@ -84,6 +86,14 @@ function DemoScene(props: {
 
 		setGUI(globalGUI);
 
+		// h key to hide/show gui
+		function toggleGUI(e: KeyboardEvent) {
+			if (e.key === 'h') {
+				globalGUI?._hidden ? globalGUI?.show() : globalGUI?.hide();
+			}
+		}
+		window.addEventListener('keydown', toggleGUI);
+
 		if (props.demoBasicFn) {
 			let dispose = props.demoBasicFn(renderer, scene, camera, globalGUI)?.dispose;
 			return () => {
@@ -92,6 +102,9 @@ function DemoScene(props: {
 					(obj as any).dispose?.();
 				});
 				dispose?.();
+				globalGUI?.destroy();
+				globalGUI = null;
+				window.removeEventListener('keydown', toggleGUI);
 			}
 		}
 	}, [scene, renderer, camera]);

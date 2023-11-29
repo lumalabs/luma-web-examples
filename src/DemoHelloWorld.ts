@@ -1,9 +1,12 @@
 import { LumaSplatsThree } from "luma-web";
-import { Camera, Scene, WebGLRenderer, PlaneGeometry, MeshBasicMaterial, Mesh, Texture, Vector3, DoubleSide, MeshStandardMaterial } from "three";
+import { Camera, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
 
 export function DemoHelloWorld(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
+    scene.background = new Color('white');
+
     let splats = new LumaSplatsThree({
+        // MIT WPU Globe @krazyykrunal
         source: 'https://lumalabs.ai/capture/ca9ea966-ca24-4ec1-ab0f-af665cb546ff',
         // we disable full three.js for performance
         enableThreeShaderIntegration: false,

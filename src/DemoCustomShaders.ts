@@ -5,57 +5,14 @@ import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 import { downloadArtifacts } from "./util/DownloadArtifacts";
 
 export function DemoCustomShaders(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
-	let needsRender = true;
-
-	renderer.xr.enabled = true;
-	renderer.toneMapping = ACESFilmicToneMapping;
-
-	gui.add(renderer, 'toneMapping', {
-		NoToneMapping,
-		CineonToneMapping,
-		ACESFilmicToneMapping,
-	});
-	// tone mapping exposure
-	gui.add(renderer, 'toneMappingExposure', 0, 10);
-
-	let vrButton = VRButton.createButton(renderer);
-	let canvas = renderer.getContext().canvas as HTMLCanvasElement;
-	canvas.parentElement!.append(vrButton);
-
-	// normal cube
-	let cube = new Mesh(
-		new BoxGeometry(1, 1, 1),
-		new MeshNormalMaterial({
-			wireframe: false,
-			side: DoubleSide,
-		})
-	);
-	// scene.add(cube);
-	cube.scale.set(0.5, 0.5, 0.5);
-
-	let params = new URLSearchParams(document.location.search)
-
-	let uuid = params.get('uuid');
-	let src = params.get('src');
-	let url = params.get('url');
-	let artifactsStr = params.get('artifacts');
-	let artifacts: object | null = artifactsStr ? JSON.parse(artifactsStr) : null;
-
-	// if nothing provided use an example uuid 218530bb-d6cc-4984-b5d5-3bfab719a94b
-	if (!uuid && !src && !url && !artifacts) {
-		uuid = '218530bb-d6cc-4984-b5d5-3bfab719a94b';
-	}
-
 	let uniformTime = new Uniform(0);
 
-	let splatLoader = new LumaSplatsLoader({ captureUrl: 'https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c' });
+	let splatLoader = new LumaSplatsLoader({ captureUrl: '' });
 	let splats = new LumaSplatsThree({
-		loader: splatLoader,
+		// Chateau de Menthon - Annecy @Yannick_Cerrutti
+		source: `https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c`,
 		particleRevealEnabled: false,
 		enableThreeShaderIntegration: true,
-		onRequestRender: () => {
-			needsRender = true;
-		},
 		onBeforeRender: () => {
 			uniformTime.value = performance.now() / 1000;
 		}
@@ -115,7 +72,6 @@ export function DemoCustomShaders(renderer: WebGLRenderer, scene: Scene, camera:
 	}
 
 	function updateSemanticMask() {
-		needsRender = true;
 		splats.semanticsMask =
 			(layersEnabled.background ? 1 : 0) |
 			(layersEnabled.foreground ? 2 : 0);
@@ -148,7 +104,6 @@ export function DemoCustomShaders(renderer: WebGLRenderer, scene: Scene, camera:
 	return {
 		dispose: () => {
 			splats.dispose();
-			vrButton.remove();
 		}
 	}
 }

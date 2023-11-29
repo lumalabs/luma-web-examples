@@ -16,8 +16,6 @@ export function loadEnvironment(renderer: WebGLRenderer, scene: Scene, path: str
 			texture.dispose();
 			pmremGenerator.dispose();
 			rgbeLoader.dispose();
-		},
-		() => {},
-		() => {}
+		}
 	);
 }
