@@ -5,7 +5,7 @@
 ### Contents
 - [Getting Started](#getting-started)
 - [Background Removal](#background-removal)
-- [Three.js Fog](#threejs-fog)
+- [Three Fog](#threejs-fog)
 - [Scene Lighting](#scene-lighting)
 - [Custom Shaders](#custom-shaders)
 - [React Three Fiber](#react-three-fiber)
@@ -76,8 +76,8 @@ scene.add(splats);
 splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
 ```
 
-## Three.js Fog
-[![three.js-fog-demo](assets/images/three.js-fog-preview.jpg)](#three.js-fog)
+## Three Fog
+[![three.js-fog-demo](assets/images/three.js-fog-preview.jpg)](#three-fog)
 
 Luma splats integrate with the three.js rendering pipeline including features like tone mapping, color spaces and fog. Ensure `enableThreeShaderIntegration` is set to `true` (the default) and set the scene fog
 
