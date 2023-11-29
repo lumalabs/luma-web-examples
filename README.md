@@ -234,7 +234,7 @@ function Scene() {
 
 Splats can be used in combination with three.js transmission effects, however some care should be taken to make this work. Splats are considered `transparent` materials in three.js which means by default they're not rendered in the transmissive pass, so initially you won't see your splats in transmissive materials. To fix we set `splats.material.transparent = false;`.
 
-In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and to to the canvas. We do this by checking the render target before rendering and selectively disabling.
+In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and the outer to the canvas. We do this by checking the render target before rendering and selectively disabling.
 
 **[DemoTransmission.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoTransmission.ts)**
 ```typescript
