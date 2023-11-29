@@ -1,4 +1,4 @@
-# [![luma-logo](assets/logo.svg)](https://lumalabs.ai) Luma WebGL Examples
+# [![luma-logo](assets/logo.svg)](https://lumalabs.ai) Luma WebGL Library
 
 `luma-web` is a [npm package](https://www.npmjs.com/package/luma-web) for rendering photoreal interactive scenes captured by the [Luma app](https://lumalabs.ai/). It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood. For these examples we'll use [Three.js](https://threejs.org/).
 
@@ -236,7 +236,7 @@ Splats can be used in combination with three.js transmission effects, however so
 
 In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and to to the canvas. We do this by checking the render target before rendering and selectively disabling.
 
-**[DemoTransmission.tsx](./src/DemoTransmission.tsx)**
+**[DemoTransmission.ts](./src/DemoTransmission.ts)**
 ```typescript
 // inner splat
 let globeSplats = new LumaSplatsThree({
@@ -298,7 +298,7 @@ scene.add(glassSphere);
 
 Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button
 
-**[DemoVR.tsx](./src/DemoVR.tsx)**
+**[DemoVR.ts](./src/DemoVR.ts)**
 ```typescript
 import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 
