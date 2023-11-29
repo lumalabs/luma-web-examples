@@ -25,7 +25,7 @@ type DemoFn =
 const demos = {
 	basic: {
 		"getting-started": DemoHelloWorld,
-		"three.js-fog": DemoFog,
+		"three-fog": DemoFog,
 		"background-removal": DemoBackgroundRemoval,
 		"scene-lighting": DemoLighting,
 		"custom-shaders": DemoCustomShaders,

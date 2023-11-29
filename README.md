@@ -5,7 +5,7 @@
 ### Contents
 - [Getting Started](#getting-started)
 - [Background Removal](#background-removal)
-- [Three.js Fog](#three.js-fog)
+- [Three.js Fog](#threejs-fog)
 - [Scene Lighting](#scene-lighting)
 - [Custom Shaders](#custom-shaders)
 - [React Three Fiber](#react-three-fiber)
