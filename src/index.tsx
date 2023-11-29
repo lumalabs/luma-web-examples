@@ -15,6 +15,7 @@ import { DemoReactThreeFiber } from './DemoReactThreeFiber';
 
 import readme from '../README.md';
 import { DemoBackgroundRemoval } from './DemoBackgroundRemoval';
+import { DemoTransmission } from './DemoTransmission';
 
 type DemoFn =
 	(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI)
@@ -27,6 +28,7 @@ const demos = {
 		"background-removal": DemoBackgroundRemoval,
 		"scene-lighting": DemoLighting,
 		"custom-shaders": DemoCustomShaders,
+		"transmission": DemoTransmission,
 	} as Record<string, DemoFn>,
 	react: {
 		"react-three-fiber": DemoReactThreeFiber

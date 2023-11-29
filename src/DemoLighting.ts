@@ -12,12 +12,37 @@ export function DemoLighting(renderer: WebGLRenderer, scene: Scene, camera: Came
 		loadingAnimationEnabled: false,
 	});
 
-	splats.onLoad = (s) => {
+	/*
+	let lastEnvCaptureTime = performance.now();
+	splats.onProgress = (progress) => {
+		let t_ms = performance.now();
+		let complete = progress.progress === 1;
+		if (complete || (t_ms - lastEnvCaptureTime) > 250) {
+			let capturedTexture = splats.captureCubeMap(renderer);
+			scene.environment = capturedTexture;
+			scene.background = capturedTexture;
+			scene.backgroundBlurriness = 0.5;
+			lastEnvCaptureTime = t_ms;
+		}
+	}
+	*/
+
+	splats.onLoad = () => {
 		let capturedTexture = splats.captureCubeMap(renderer);
 		scene.environment = capturedTexture;
 		scene.background = capturedTexture;
 		scene.backgroundBlurriness = 0.5;
 	}
+
+	// debug issue
+	// setInterval(() => {
+	// 	console.log('capture');
+	// 	scene.environment?.dispose();
+	// 	let capturedTexture = splats.captureCubeMap(renderer);
+	// 	scene.environment = capturedTexture;
+	// 	scene.background = capturedTexture;
+	// 	scene.backgroundBlurriness = 0.5;
+	// }, 1000);
 
 	scene.add(splats);
 
@@ -51,9 +76,9 @@ export function DemoLighting(renderer: WebGLRenderer, scene: Scene, camera: Came
 			}
 		});
 
+		// animate
 		scene.onBeforeRender = () => {
 			let t_s = performance.now() / 1000;
-			ufo.rotation.y = (t_s * 0.1) % (Math.PI * 2);
 			ufo.position.y = Math.sin(t_s * 0.25) * 0.05 + 0.5;
 		}
 	});

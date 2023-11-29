@@ -2,6 +2,7 @@ import GUI from "lil-gui";
 import { LumaSplatsSemantics, LumaSplatsThree } from "luma-web";
 import { Camera, PMREMGenerator, Scene, Texture, WebGLRenderer } from "three";
 import { RGBELoader } from "three/examples/jsm/loaders/RGBELoader.js";
+import { loadEnvironment } from "./util/Environment";
 
 export function DemoBackgroundRemoval(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
 	let splats = new LumaSplatsThree({
@@ -25,26 +26,11 @@ export function DemoBackgroundRemoval(renderer: WebGLRenderer, scene: Scene, cam
 
 	gui.add(layersEnabled, 'Background').onChange(updateSemanticMask);
 
-	// environment
-	let rgbeLoader = new RGBELoader().load(
-		'assets/venice_sunset_1k.hdr',
-		(texture: Texture) => {
-			const pmremGenerator = new PMREMGenerator(renderer)
-			pmremGenerator.compileEquirectangularShader();
-			const environment = pmremGenerator.fromEquirectangular(texture).texture;
-			scene.background = environment;
-			scene.backgroundBlurriness = 0.5;
-			texture.dispose();
-			pmremGenerator.dispose();
-		},
-		() => {},
-		() => {}
-	);
+	loadEnvironment(renderer, scene, 'assets/venice_sunset_1k.hdr');
 
 	return {
 		dispose: () => {
 			splats.dispose();
-			rgbeLoader.dispose();
 		}
 	}
 }

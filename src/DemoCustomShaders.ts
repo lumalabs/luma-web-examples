@@ -72,7 +72,7 @@ export function DemoCustomShaders(renderer: WebGLRenderer, scene: Scene, camera:
 		
 			// additionalGlobals: /*glsl*/``,
 
-			// getSplatViewSpacePosition: /*glsl*/`
+			// onMainEnd: /*glsl*/`
 			// 	(vec4 p) {
 			// 		return p;
 			// 	}
