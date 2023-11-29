@@ -296,7 +296,7 @@ scene.add(glassSphere);
 ## VR
 [![vr-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/vr-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#vr)
 
-Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button
+Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button. View this demo with a VR headset (or through a headset browser) and click "Enter VR"! It will work best on PC VR, standalone VR tends to struggle with splats presently
 
 **[DemoVR.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoVR.ts)**
 ```typescript
@@ -315,5 +315,3 @@ let splats = new LumaSplatsThree({
 
 scene.add(splats);
 ```
-
-View this demo with a VR headset (or through a headset browser) and click "Enter VR"! It will work best on PC VR, standalone VR tends to struggle with splats presently
