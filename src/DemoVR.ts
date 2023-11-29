@@ -13,6 +13,8 @@ export function DemoVR(renderer: WebGLRenderer, scene: Scene, camera: Camera, gu
 	let splats = new LumaSplatsThree({
 		// Kind Humanoid @RyanHickman
 		source: 'https://lumalabs.ai/capture/83e9aae8-7023-448e-83a6-53ccb377ec86',
+		// disable three.js shader integration for performance
+		enableThreeShaderIntegration: false,
 	});
 
 	scene.add(splats);

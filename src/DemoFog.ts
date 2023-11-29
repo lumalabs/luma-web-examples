@@ -1,16 +1,18 @@
 import GUI from 'lil-gui';
 import { LumaSplatsThree } from "luma-web";
 import { Camera, Color, FogExp2, Scene, WebGLRenderer } from "three";
+import { EnvironmentProbes } from './util/EnvironmentProbes';
 
 export function DemoFog(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
 
 	// fog
-	scene.fog = new FogExp2(new Color(0xe0e1ff).convertLinearToSRGB(), 0.15);
+	scene.fog = new FogExp2(new Color(0xe0e1ff).convertLinearToSRGB(), 0.20);
 	scene.background = scene.fog.color;
 
 	let splats = new LumaSplatsThree({
 		// HOLLYWOOD @DroneFotoBooth
-		source: 'https://lumalabs.ai/capture/b5faf515-7932-4000-ab23-959fc43f0d94'
+		source: 'https://lumalabs.ai/capture/b5faf515-7932-4000-ab23-959fc43f0d94',
+		loadingAnimationEnabled: false,
 	});
 	scene.add(splats);
 
@@ -20,6 +22,16 @@ export function DemoFog(renderer: WebGLRenderer, scene: Scene, camera: Camera, g
 		camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
 		camera.updateMatrixWorld();
 	};
+
+	splats.onLoad = () => {
+		let environmentMap = splats.captureCubeMap(renderer);
+		scene.environment = environmentMap;
+		let environmentProbes = new EnvironmentProbes(4);
+		environmentProbes.position.set(-3, 1, 0.25);
+		environmentProbes.rotation.y = Math.PI / 2;
+		environmentProbes.scale.setScalar(3);
+		scene.add(environmentProbes);
+	}
 
 	// gui for fog
 	gui.add(renderer, 'toneMappingExposure', 0, 10).name('Exposure');
