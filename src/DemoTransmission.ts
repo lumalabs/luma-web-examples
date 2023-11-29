@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { LumaSplatsThree } from "luma-web";
+import { LumaSplatsThree } from "@lumaai/luma-web";
 import { AdditiveBlending, Camera, CustomBlending, FrontSide, Mesh, MeshPhysicalMaterial, MultiplyBlending, NoBlending, NormalBlending, Plane, Scene, SphereGeometry, SubtractiveBlending, Vector3, WebGLRenderer } from "three";
 
 export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {

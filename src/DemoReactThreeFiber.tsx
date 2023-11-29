@@ -1,5 +1,5 @@
 import { Environment, Grid, PivotControls } from '@react-three/drei';
-import { LumaSplatsSemantics } from 'luma-web';
+import { LumaSplatsSemantics } from "@lumaai/luma-web";
 import React from 'react';
 import './LumaSplatsReact';
 

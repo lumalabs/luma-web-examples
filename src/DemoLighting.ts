@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { LumaSplatsThree } from "luma-web";
+import { LumaSplatsThree } from "@lumaai/luma-web";
 import { Camera, Mesh, Scene, WebGLRenderer } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { EnvironmentProbes } from "./util/EnvironmentProbes";

@@ -1,5 +1,5 @@
 import GUI from 'lil-gui';
-import { LumaSplatsLoader, LumaSplatsThree } from "luma-web";
+import { LumaSplatsLoader, LumaSplatsThree } from "@lumaai/luma-web";
 import { ACESFilmicToneMapping, BoxGeometry, Camera, CineonToneMapping, DoubleSide, FogExp2, Mesh, MeshNormalMaterial, NoToneMapping, Scene, Uniform, WebGLRenderer } from "three";
 import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 import { downloadArtifacts } from "./util/DownloadArtifacts";

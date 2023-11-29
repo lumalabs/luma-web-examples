@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { LumaSplatsSemantics, LumaSplatsThree } from "luma-web";
+import { LumaSplatsSemantics, LumaSplatsThree } from "@lumaai/luma-web";
 import { Camera, Scene, WebGLRenderer } from "three";
 import { loadEnvironment } from "./util/Environment";
 

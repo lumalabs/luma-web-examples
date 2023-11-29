@@ -1,4 +1,4 @@
-import { LumaSplatsLoader } from "luma-web";
+import { LumaSplatsLoader } from "@lumaai/luma-web";
 
 export async function downloadArtifacts(splatLoader: LumaSplatsLoader, onProgress: (progress: number) => void = ()=>{}) {
 	let artifacts: { [key: string]: string | undefined } = await splatLoader.getArtifacts();

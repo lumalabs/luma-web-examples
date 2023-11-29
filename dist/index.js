@@ -4936,7 +4936,7 @@ function Scene() {
 
 Splats can be used in combination with three.js transmission effects, however some care should be taken to make this work. Splats are considered \`transparent\` materials in three.js which means by default they're not rendered in the transmissive pass, so initially you won't see your splats in transmissive materials. To fix we set \`splats.material.transparent = false;\`.
 
-In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and to to the canvas. We do this by checking the render target before rendering and selectively disabling.
+In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and the outer to the canvas. We do this by checking the render target before rendering and selectively disabling.
 
 **[DemoTransmission.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoTransmission.ts)**
 \`\`\`typescript
@@ -4998,7 +4998,7 @@ scene.add(glassSphere);
 ## VR
 [![vr-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/vr-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#vr)
 
-Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button
+Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button. View this demo with a VR headset (or through a headset browser) and click "Enter VR"! It will work best on PC VR, standalone VR tends to struggle with splats presently
 
 **[DemoVR.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoVR.ts)**
 \`\`\`typescript
@@ -5017,8 +5017,6 @@ let splats = new LumaSplatsThree({
 
 scene.add(splats);
 \`\`\`
-
-View this demo with a VR headset (or through a headset browser) and click "Enter VR"! It will work best on PC VR, standalone VR tends to struggle with splats presently
 `;$t();$t();var GB=class extends _a{constructor(e){super(e),this.type=bn}parse(e){let o=function(N,D){switch(N){case 1:throw new Error("THREE.RGBELoader: Read Error: "+(D||""));case 2:throw new Error("THREE.RGBELoader: Write Error: "+(D||""));case 3:throw new Error("THREE.RGBELoader: Bad File Format: "+(D||""));default:case 4:throw new Error("THREE.RGBELoader: Memory Error: "+(D||""))}},u=`
 `,d=function(N,D,x){D=D||1024;let ee=N.pos,Ae=-1,P=0,Y="",X=String.fromCharCode.apply(null,new Uint16Array(N.subarray(ee,ee+128)));for(;0>(Ae=X.indexOf(u))&&P<D&&ee<N.byteLength;)Y+=X,P+=X.length,ee+=128,X+=String.fromCharCode.apply(null,new Uint16Array(N.subarray(ee,ee+128)));return-1<Ae?(x!==!1&&(N.pos+=P+Ae+1),Y+X.slice(0,Ae)):!1},p=function(N){let D=/^#\?(\S+)/,x=/^\s*GAMMA\s*=\s*(\d+(\.\d+)?)\s*$/,U=/^\s*EXPOSURE\s*=\s*(\d+(\.\d+)?)\s*$/,ee=/^\s*FORMAT=(\S+)\s*$/,Ae=/^\s*\-Y\s+(\d+)\s+\+X\s+(\d+)\s*$/,P={valid:0,string:"",comments:"",programtype:"RGBE",format:"",gamma:1,exposure:1,width:0,height:0},Y,X;for((N.pos>=N.byteLength||!(Y=d(N)))&&o(1,"no header found"),(X=Y.match(D))||o(3,"bad initial token"),P.valid|=1,P.programtype=X[1],P.string+=Y+`
 `;Y=d(N),Y!==!1;){if(P.string+=Y+`

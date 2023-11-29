@@ -18,7 +18,6 @@
     "@types/react-dom": "^18.2.17",
     "@types/react-syntax-highlighter": "^15.5.10",
     "lil-gui": "^0.19.1",
-    "luma-web": "file:../../",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-markdown": "^9.0.1",

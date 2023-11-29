@@ -1,4 +1,4 @@
-import { LumaSplatsThree } from "luma-web";
+import { LumaSplatsThree } from "@lumaai/luma-web";
 import { Camera, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
 
 export function DemoHelloWorld(renderer: WebGLRenderer, scene: Scene, camera: Camera) {

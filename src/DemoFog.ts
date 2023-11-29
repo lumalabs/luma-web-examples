@@ -1,5 +1,5 @@
 import GUI from 'lil-gui';
-import { LumaSplatsThree } from "luma-web";
+import { LumaSplatsThree } from "@lumaai/luma-web";
 import { Camera, Color, FogExp2, Scene, WebGLRenderer } from "three";
 import { EnvironmentProbes } from './util/EnvironmentProbes';
 

@@ -1,5 +1,5 @@
 import GUI from "lil-gui";
-import { LumaSplatsThree } from "luma-web";
+import { LumaSplatsThree } from "@lumaai/luma-web";
 import { Camera, Scene, WebGLRenderer } from "three";
 import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 
