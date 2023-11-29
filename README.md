@@ -13,6 +13,7 @@
 - [VR](#vr)
 
 ## Getting Started
+![hello-world-demo](assets/images/hello-world-preview.jpg)
 
 To get started, install the package:
 
@@ -107,7 +108,9 @@ splats.onLoad = () => {
 
 ## Custom Shaders
 
-todo
+You can inject code into the splat shaders to customize them. To do this, call `setShaderHook({ ... })` on your splat and provide GLSL function, uniforms and globals. For example, in this demo we apply a transform matrix to each splat by setting the vertex shader hook `getSplatTransform`. It generates a transform matrix for time-varying sinusoidal offset to the y coordinate.
+
+The syntax for shader hook function is a GLSL function without a function name. The GLSL function arguments and return are given as documentation on the shader hook fields (see below).
 
 **[DemoCustomShaders.ts](./src/DemoCustomShaders.ts)**
 ```ts
@@ -122,7 +125,7 @@ splats.setShaderHooks({
 				// sin wave on x-axis
 				float x = 0.;
 				float z = 0.;
-				float y = sin(position.x * 2. + time_s) * 0.1 * float(layersBitmask > 1u);
+				float y = sin(position.x * 1.0 + time_s) * 0.1;
 				return mat4(
 					1., 0., 0., 0,
 					0., 1., 0., 0,
@@ -130,9 +133,66 @@ splats.setShaderHooks({
 					x,  y,  z, 1.
 				);
 			}
-		`
+		`,
 	}
 });
+```
+
+**Shader Hook API**
+```typescript
+type LumaShaderHooks = {
+
+	/** Hooks added to the vertex shader */
+	vertexShaderHooks?: {
+		additionalUniforms?: { [name: string]: [UniformTypeGLSL, { value: any }] },
+
+		/** Inject into global space (for example, to add varying) */
+		additionalGlobals?: string,
+
+		/**
+		 * Example `(vec3 splatPosition, uint layersBitmask) { return mat4(1.); }`
+		 * @param {vec3} splatPosition, object-space
+		 * @param {uint} layersBitmask, bit mask of layers, where bit 0 is background and bit 1 is foreground
+		 * @returns {mat4} per-splat local transform
+		 */
+		getSplatTransform?: string,
+
+		/**
+		 * Executed at the end of the main function after gl_Position is set
+		 * 
+		 * Example `() {
+		 *  vPosition = gl_Position;
+		 * }`
+		 * @returns {void}
+		 */
+		onMainEnd?: string,
+
+		/**
+		 * Example `(vec4 splatColor, vec3 splatPosition) { return pow(splatColor.rgb, vec3(2.2), splatColor.a); }`
+		 * Use `gl_Position` is available
+		 * @param {vec4} splatColor, default splat color
+		 * @param {vec3} splatPosition, object-space
+		 * @param {uint} layersBitmask, bit mask of layers, where bit 0 is background and bit 1 is foreground
+		 * @returns {vec4} updated splat color
+		 */
+		getSplatColor?: string,
+	},
+
+	/** Hooks added to the fragment shader */
+	fragmentShaderHooks?: {
+		additionalUniforms?: { [name: string]: [UniformTypeGLSL, { value: any }] },
+
+		/** Inject into global space (for example, to add varying) */
+		additionalGlobals?: string,
+
+		/**
+		 * Example `(vec4 fragColor) { return tonemap(fragColor); }`
+		 * @param {vec4} fragColor, default fragment color
+		 * @returns {vec4} updated fragment color
+		 */
+		getFragmentColor?: string,
+	}
+}
 ```
 
 ## React Three Fiber
@@ -166,8 +226,87 @@ function Scene() {
 
 ## Transmission
 
-todo
+Splats can be used in combination with three.js transmission effects, however some care should be taken to make this work. Splats are considered `transparent` materials in three.js which means by default they're not rendered in the transmissive pass, so initially you won't see your splats in transmissive materials. To fix we set `splats.material.transparent = false;`.
+
+In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and to to the canvas. We do this by checking the render target before rendering and selectively disabling.
+
+**[DemoTransmission.tsx](./src/DemoTransmission.tsx)**
+```typescript
+// inner splat
+let globeSplats = new LumaSplatsThree({
+	// Chateau de Menthon - Annecy
+	source: 'https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c',
+	enableThreeShaderIntegration: true,
+	onBeforeRender: (renderer) => {
+		// disable MSAA on render targets (in this case the transmission render target)
+		// this improves splatting performance
+		let target = renderer.getRenderTarget();
+		if (target) {
+			target.samples = 0;
+		}
+
+		// only render in targets and not the canvas
+		globeSplats.preventDraw = target == null;
+	}
+});
+
+// disable transparency so the renderer considers it an opaque object
+// opaque objects are rendered in the transmission pass (whereas transparent objects are not)
+globeSplats.material.transparent = false;
+
+scene.add(globeSplats);
+
+// outer splat
+let environmentSplats = new LumaSplatsThree({
+	// Arosa Hörnli - Switzerland
+	source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',
+	// disable animation for lighting capture
+	loadingAnimationEnabled: false,
+	// disable three.js shader integration for performance
+	enableThreeShaderIntegration: false,
+});
+
+scene.add(environmentSplats);
+
+// add a refractive transmissive sphere
+let glassSphere = new Mesh(
+	new SphereGeometry(1, 32, 32),
+	new MeshPhysicalMaterial({
+		roughness: 0,
+		metalness: 0,
+		transmission: 1,
+		ior: 1.341,
+		thickness: 1.52,
+		envMapIntensity: 1.2,
+		clearcoat: 1,
+		side: FrontSide,
+		transparent: true,
+	})
+);
+
+scene.add(glassSphere);
+```
 
 ## VR
 
-todo
+Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button
+
+**[DemoVR.tsx](./src/DemoVR.tsx)**
+```typescript
+import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
+
+renderer.xr.enabled = true;
+
+let vrButton = VRButton.createButton(renderer);
+
+document.body.appendChild(vrButton);
+
+let splats = new LumaSplatsThree({
+	// Kind Humanoid @RyanHickman
+	source: 'https://lumalabs.ai/capture/83e9aae8-7023-448e-83a6-53ccb377ec86',
+});
+
+scene.add(splats);
+```
+
+View this demo with a VR headset (or through a headset browser) and click "Enter VR"!
