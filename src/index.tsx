@@ -135,6 +135,7 @@ function App() {
 		let demoExists = demoParam != null && demoKeys.includes(demoParam);
 		return demoExists ? demoParam : demoKeys[0];
 	});
+	const [showMenu, setShowMenu] = useState(false);
 
 	const demoBasicFn = demoKey != null ? demos.basic[demoKey] : null;
 	const demoReactFn = demoKey != null ? demos.react[demoKey] : null;
@@ -151,10 +152,22 @@ function App() {
 		if (demoKey) {
 			document.getElementById(demoKey)?.scrollIntoView({ behavior: 'smooth' });
 		}
+
+		// press e to expand demo
+		function onKeyDown(e: KeyboardEvent) {
+			if (e.key === 'e') {
+				setShowMenu(e => !e);
+			}
+		}
+		window.addEventListener('keydown', onKeyDown);
+		
+		return () => {
+			window.removeEventListener('keydown', onKeyDown);
+		}
 	}, []);
 
 	return <>
-		<div className='demo-menu'>
+		{!showMenu && <div className='demo-menu'>
 			<Markdown
 				components={{
 					h2(props) {
@@ -195,7 +208,7 @@ function App() {
 					}
 				}}
 			>{readme}</Markdown>
-		</div>
+		</div>}
 
 		{hasDemo && <Canvas
 			gl={{
