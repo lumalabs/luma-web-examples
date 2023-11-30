@@ -1,5 +1,5 @@
 import { LumaSplatsThree } from "@lumaai/luma-web";
-import { Camera, Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, Scene, Texture, WebGLRenderer } from "three";
+import { Camera, Color, DoubleSide, Matrix4, Mesh, MeshStandardMaterial, PlaneGeometry, Quaternion, Scene, Texture, Vector3, WebGLRenderer } from "three";
 
 export function DemoHelloWorld(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
 
@@ -16,8 +16,7 @@ export function DemoHelloWorld(renderer: WebGLRenderer, scene: Scene, camera: Ca
 
 	// the splats file can provide an ideal initial viewing location
 	splats.onInitialCameraTransform = transform => {
-		camera.matrix.copy(transform);
-		camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
+		transform.decompose(camera.position, camera.quaternion, new Vector3());
 	};
 
 	scene.add(createText());
