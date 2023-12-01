@@ -125,7 +125,7 @@ function DemoScene(props: {
 
 		let expandButton = document.createElement('div');
 		expandButton.style.visibility = showUI ? 'visible' : 'hidden';
-		expandButton.className = 'expand-button ' + (props.expanded ? 'icon-navicon' : 'icon-expand');
+		expandButton.className = 'expand-button ' + (props.expanded ? 'icon-compress' : 'icon-expand');
 		expandButton.onclick = () => {
 			props.onExpandToggle(!props.expanded);
 		}
@@ -234,6 +234,17 @@ function App() {
 								{children}
 							</code>
 						)
+					},
+					a(props) {
+						// replace absolute links with local ones
+						let { href, ...rest } = props;
+						let pattern = /^https:\/\/cdn-luma.com\/[^#]+#(.*)/;
+						if (href && pattern.test(href)) {
+							let before = href;
+							let match = href.match(pattern);
+							href = '#' + match![1];
+						}
+						return <a {...rest} href={href} />
 					}
 				}}
 			>{readme}</Markdown>
