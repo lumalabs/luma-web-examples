@@ -1,11 +1,46 @@
 import { LumaSplatsThree } from "@lumaai/luma-web";
 import GUI from "lil-gui";
-import { Camera, FrontSide, Mesh, MeshPhysicalMaterial, Plane, Scene, SphereGeometry, Vector3, WebGLRenderer } from "three";
+import { Camera, MathUtils, PerspectiveCamera, FrontSide, Mesh, MeshPhysicalMaterial, Plane, Scene, SphereGeometry, Vector3, WebGLRenderer } from "three";
 
 export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
 
-	renderer.localClippingEnabled = true;
+	renderer.localClippingEnabled = false;
 
+	// add a refractive transmissive sphere
+	let glassGlobe = new Mesh(
+		new SphereGeometry(1, 32, 32),
+		new MeshPhysicalMaterial({
+			roughness: 0,
+			metalness: 0,
+			transparent: true,
+			transmission: 1,
+			ior: 1.341,
+			thickness: 1.52,
+			envMapIntensity: 1.2, // push up the environment map intensity a little
+			clearcoat: 1,
+			side: FrontSide,
+		})
+	);
+	const glassSphereRadius = 1;
+	const initialMaterialProperties = glassGlobe.material.clone();
+	glassGlobe.scale.setScalar(glassSphereRadius);
+	scene.add(glassGlobe);
+
+	let globeSurfaceDistance = NaN;
+	scene.onBeforeRender = () => {
+		// check if camera's near plane is inside the globe
+		camera.updateWorldMatrix(true, false);
+		let nearVector = new Vector3(0, 0, -(camera as PerspectiveCamera).near);
+		let nearWorld = nearVector.applyMatrix4(camera.matrixWorld);
+		let distanceToGlobe = nearWorld.distanceTo(glassGlobe.position);
+		globeSurfaceDistance = distanceToGlobe - glassSphereRadius;
+
+		// adjust globe thickness
+		glassGlobe.material.thickness = MathUtils.lerp(initialMaterialProperties.thickness, 0, MathUtils.smoothstep(0.2, 0, globeSurfaceDistance));
+		glassGlobe.visible = globeSurfaceDistance > 0;
+	}
+
+	let globeSplatClippingPlane = new Plane(new Vector3(0, 0, 1), 0);
 	let globeSplats = new LumaSplatsThree({
 		// Chateau de Menthon - Annecy @Yannick_Cerrutti 
 		source: 'https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c',
@@ -17,12 +52,15 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 			if (target) {
 				target.samples = 0;
 			}
+			
+			let isInsideGlobe = globeSurfaceDistance < 0;
 
 			// only render in targets and not the canvas
-			globeSplats.preventDraw = target == null;
+			globeSplats.preventDraw = isInsideGlobe ? (target != null) : (target == null)
 		}
 	});
 	globeSplats.material.clipping = false;
+	globeSplats.material.clippingPlanes = [globeSplatClippingPlane];
 	// disable transparency so the renderer considers it an opaque object
 	// opaque objects are rendered in the transmission pass (whereas transparent objects are not)
 	globeSplats.material.transparent = false;
@@ -33,6 +71,11 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 		source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',
 		loadingAnimationEnabled: false,
 		enableThreeShaderIntegration: false,
+		onBeforeRender: () => {
+			let isInsideGlobe = globeSurfaceDistance < 0;
+
+			environmentSplats.preventDraw = isInsideGlobe;
+		}
 	});
 	scene.add(environmentSplats);
 
@@ -56,24 +99,6 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 	];
 
 	// globeSplats.material.clippingPlanes = unitCubePlanes;
-
-	// add a refractive transmissive sphere
-	let glassSphere = new Mesh(
-		new SphereGeometry(1, 32, 32),
-		new MeshPhysicalMaterial({
-			roughness: 0,
-			metalness: 0,
-			transparent: true,
-			transmission: 1,
-			ior: 1.341,
-			thickness: 1.52,
-			envMapIntensity: 1.2, // push up the environment map intensity a little
-			clearcoat: 1,
-			side: FrontSide,
-		})
-	);
-
-	scene.add(glassSphere);
 
 	// capture environment lighting
 	environmentSplats.onLoad = () => {
