@@ -7,14 +7,13 @@ import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { nord as syntaxTheme } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Camera, CineonToneMapping, Scene, WebGLRenderer } from 'three';
-import { DemoFog } from './DemoFog';
-import { DemoHelloWorld } from './DemoHelloWorld';
-import { DemoCustomShaders } from './DemoCustomShaders';
-import { DemoLighting } from './DemoLighting';
-import { DemoReactThreeFiber } from './DemoReactThreeFiber';
-
 import readme from '../README.md';
 import { DemoBackgroundRemoval } from './DemoBackgroundRemoval';
+import { DemoCustomShaders } from './DemoCustomShaders';
+import { DemoFog } from './DemoFog';
+import { DemoHelloWorld } from './DemoHelloWorld';
+import { DemoLighting } from './DemoLighting';
+import { DemoReactThreeFiber } from './DemoReactThreeFiber';
 import { DemoTransmission } from './DemoTransmission';
 import { DemoVR } from './DemoVR';
 
@@ -40,12 +39,15 @@ const demos = {
 let globalGUI: GUI | null = null;
 
 function DemoScene(props: {
+	expanded: boolean,
 	demoBasicFn: DemoFn | null,
 	demoReactFn: React.FC<{ gui: GUI }> | null,
+	onExpandToggle: (expanded: boolean) => void,
 }) {
 	let { scene, gl: renderer, camera } = useThree();
 	let [gui, setGUI] = useState<GUI | null>(globalGUI);
 	let [autoRotate, setAutoRotate] = useState(true);
+	let [showUI, setShowUI] = useState(true);
 
 	useEffect(() => {
 		globalGUI?.destroy();
@@ -86,28 +88,54 @@ function DemoScene(props: {
 
 		setGUI(globalGUI);
 
-		// h key to hide/show gui
-		function toggleGUI(e: KeyboardEvent) {
-			if (e.key === 'h') {
-				globalGUI?._hidden ? globalGUI?.show() : globalGUI?.hide();
-			}
-		}
-		window.addEventListener('keydown', toggleGUI);
-
 		if (props.demoBasicFn) {
-			let dispose = props.demoBasicFn(renderer, scene, camera, globalGUI)?.dispose;
+			let demoDispose = props.demoBasicFn(renderer, scene, camera, globalGUI)?.dispose;
+
 			return () => {
 				// call .dispose() on all objects in the scene
 				scene.traverse((obj) => {
 					(obj as any).dispose?.();
 				});
-				dispose?.();
+
+				demoDispose?.();
+
+				renderer.dispose();
+
 				globalGUI?.destroy();
 				globalGUI = null;
-				window.removeEventListener('keydown', toggleGUI);
 			}
 		}
-	}, [scene, renderer, camera]);
+	}, []);
+
+	useEffect(() => {
+		// h key to hide/show gui
+		function toggleGUI(e: KeyboardEvent) {
+			if (e.key === 'h') {
+				if (showUI) {
+					gui?.hide();
+					setShowUI(false);
+				} else {
+					gui?.show();
+					setShowUI(true);
+				}
+			}
+		}
+
+		window.addEventListener('keydown', toggleGUI);
+
+		let expandButton = document.createElement('div');
+		expandButton.style.visibility = showUI ? 'visible' : 'hidden';
+		expandButton.className = 'expand-button ' + (props.expanded ? 'icon-navicon' : 'icon-expand');
+		expandButton.onclick = () => {
+			props.onExpandToggle(!props.expanded);
+		}
+		renderer.domElement.parentElement!.prepend(expandButton);
+
+		return () => {
+			window.removeEventListener('keydown', toggleGUI);
+			expandButton.remove();
+		}
+	}, [props.expanded, showUI, gui]);
 
 	return <>
 		<PerspectiveCamera />
@@ -135,7 +163,8 @@ function App() {
 		let demoExists = demoParam != null && demoKeys.includes(demoParam);
 		return demoExists ? demoParam : demoKeys[0];
 	});
-	const [showMenu, setShowMenu] = useState(false);
+	
+	const [showDocs, setShowDocs] = useState(true);
 
 	const demoBasicFn = demoKey != null ? demos.basic[demoKey] : null;
 	const demoReactFn = demoKey != null ? demos.react[demoKey] : null;
@@ -156,7 +185,7 @@ function App() {
 		// press e to expand demo
 		function onKeyDown(e: KeyboardEvent) {
 			if (e.key === 'e') {
-				setShowMenu(e => !e);
+				setShowDocs(e => !e);
 			}
 		}
 		window.addEventListener('keydown', onKeyDown);
@@ -167,7 +196,7 @@ function App() {
 	}, []);
 
 	return <>
-		{!showMenu && <div className='demo-menu'>
+		{showDocs && <div className='demo-menu'>
 			<Markdown
 				components={{
 					h2(props) {
@@ -227,6 +256,10 @@ function App() {
 			<AdaptiveDpr pixelated />
 			<DemoScene
 				key={demoKey}
+				expanded={!showDocs}
+				onExpandToggle={(expanded) => {
+					setShowDocs(!expanded);
+				}}
 				demoBasicFn={demoBasicFn}
 				demoReactFn={demoReactFn}
 			/>

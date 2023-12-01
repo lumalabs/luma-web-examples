@@ -11,7 +11,6 @@ export function DemoCustomShaders(renderer: WebGLRenderer, scene: Scene, camera:
 	let splats = new LumaSplatsThree({
 		// Chateau de Menthon - Annecy @Yannick_Cerrutti
 		source: `https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c`,
-		particleRevealEnabled: false,
 		enableThreeShaderIntegration: true,
 		onBeforeRender: () => {
 			uniformTime.value = performance.now() / 1000;
