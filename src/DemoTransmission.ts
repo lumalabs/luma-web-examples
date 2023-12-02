@@ -1,8 +1,33 @@
-import { LumaSplatsThree } from "@lumaai/luma-web";
-import GUI from "lil-gui";
-import { Camera, MathUtils, PerspectiveCamera, FrontSide, Mesh, MeshPhysicalMaterial, Plane, Scene, SphereGeometry, Vector3, WebGLRenderer } from "three";
+/**
+ * Todo:
+ * - Loads all splats in world sources, initialize all
+ * - Capture lighting for all splats
+ */
 
-export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
+import { LumaSplatsThree } from "@lumaai/luma-web";
+import { FrontSide, MathUtils, Mesh, MeshPhysicalMaterial, PerspectiveCamera, Plane, SphereGeometry, Vector3 } from "three";
+import { DemoProps } from ".";
+
+const worldSources = [
+	// Chateau de Menthon - Annecy @Yannick_Cerrutti 
+	'https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c',
+	// Arosa Hörnli - Switzerland @splnlss
+	'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',	
+];
+
+const innerGlobeRadius = 1;
+const outerGlobeRadius = 10;
+
+export function DemoTransmission(props: DemoProps) {
+	let { renderer, camera, scene, controls, gui } = props;
+
+	controls.enablePan = false;
+
+	let level = 0;
+
+	// state, updated in mainLoop before rendering
+	let innerSurfaceDistance = NaN;
+	let outerSurfaceDistance = NaN;
 
 	renderer.localClippingEnabled = false;
 
@@ -21,24 +46,9 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 			side: FrontSide,
 		})
 	);
-	const glassSphereRadius = 1;
 	const initialMaterialProperties = glassGlobe.material.clone();
-	glassGlobe.scale.setScalar(glassSphereRadius);
+	glassGlobe.scale.setScalar(innerGlobeRadius);
 	scene.add(glassGlobe);
-
-	let globeSurfaceDistance = NaN;
-	scene.onBeforeRender = () => {
-		// check if camera's near plane is inside the globe
-		camera.updateWorldMatrix(true, false);
-		let nearVector = new Vector3(0, 0, -(camera as PerspectiveCamera).near);
-		let nearWorld = nearVector.applyMatrix4(camera.matrixWorld);
-		let distanceToGlobe = nearWorld.distanceTo(glassGlobe.position);
-		globeSurfaceDistance = distanceToGlobe - glassSphereRadius;
-
-		// adjust globe thickness
-		glassGlobe.material.thickness = MathUtils.lerp(initialMaterialProperties.thickness, 0, MathUtils.smoothstep(0.2, 0, globeSurfaceDistance));
-		glassGlobe.visible = globeSurfaceDistance > 0;
-	}
 
 	let globeSplatClippingPlane = new Plane(new Vector3(0, 0, 1), 0);
 	let globeSplats = new LumaSplatsThree({
@@ -53,7 +63,7 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 				target.samples = 0;
 			}
 			
-			let isInsideGlobe = globeSurfaceDistance < 0;
+			let isInsideGlobe = innerSurfaceDistance < 0;
 
 			// only render in targets and not the canvas
 			globeSplats.preventDraw = isInsideGlobe ? (target != null) : (target == null)
@@ -72,33 +82,12 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 		loadingAnimationEnabled: false,
 		enableThreeShaderIntegration: false,
 		onBeforeRender: () => {
-			let isInsideGlobe = globeSurfaceDistance < 0;
+			let isInsideGlobe = innerSurfaceDistance < 0;
 
 			environmentSplats.preventDraw = isInsideGlobe;
 		}
 	});
 	scene.add(environmentSplats);
-
-	// the splats file can provide an ideal initial viewing location
-    environmentSplats.onInitialCameraTransform = transform => {
-        camera.matrix.copy(transform);
-        camera.matrix.decompose(camera.position, camera.quaternion, camera.scale);
-
-		// adjust camera position
-		camera.position.y = 0.6;
-		camera.position.setLength(3.3);
-    };
-
-	const unitCubePlanes = [
-		new Plane(new Vector3(0,  0, -1), 1.5),
-		new Plane(new Vector3(1,  0,  0), 1.5),
-		new Plane(new Vector3(0, -1,  0), 1.5),
-		new Plane(new Vector3(0,  1,  0), 1.5),
-		new Plane(new Vector3(-1, 0,  0), 1.5),
-		new Plane(new Vector3(0,  0,  1), 1.5),
-	];
-
-	// globeSplats.material.clippingPlanes = unitCubePlanes;
 
 	// capture environment lighting
 	environmentSplats.onLoad = () => {
@@ -107,6 +96,42 @@ export function DemoTransmission(renderer: WebGLRenderer, scene: Scene, camera: 
 		scene.background = capturedTexture;
 		scene.backgroundBlurriness = 0.5;
 	}
+
+	// main loop
+	scene.onBeforeRender = () => {
+		// check if camera's near plane is inside the globe
+		camera.updateWorldMatrix(true, false);
+		let nearVector = new Vector3(0, 0, -(camera as PerspectiveCamera).near);
+		let nearWorld = nearVector.applyMatrix4(camera.matrixWorld);
+		let distanceToGlobe = nearWorld.distanceTo(glassGlobe.position);
+		innerSurfaceDistance = distanceToGlobe - innerGlobeRadius;
+		outerSurfaceDistance = distanceToGlobe - outerGlobeRadius;
+
+		/*
+		let gap = outerGlobeRadius - innerGlobeRadius;
+
+		function applyCameraModulo() {
+			let newInnerSurfaceDistance = MathUtils.euclideanModulo(innerSurfaceDistance, gap);
+			let newCameraDistance = newInnerSurfaceDistance + innerGlobeRadius;
+			camera.position.setLength(newCameraDistance);
+		}
+
+		if (innerSurfaceDistance > gap) {
+			applyCameraModulo();
+			level++;
+		}
+
+		if (innerSurfaceDistance < 0) {
+			applyCameraModulo();
+			level--;
+		}
+		*/
+
+		// adjust globe thickness
+		glassGlobe.material.thickness = MathUtils.lerp(initialMaterialProperties.thickness, 0, MathUtils.smoothstep(0.2, 0, innerSurfaceDistance));
+		glassGlobe.visible = innerSurfaceDistance > 0;
+	}
+
 
 	return {
 		dispose: () => {
