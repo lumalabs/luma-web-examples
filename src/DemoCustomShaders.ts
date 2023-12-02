@@ -1,10 +1,11 @@
-import GUI from 'lil-gui';
 import { LumaSplatsLoader, LumaSplatsThree } from "@lumaai/luma-web";
-import { ACESFilmicToneMapping, BoxGeometry, Camera, CineonToneMapping, DoubleSide, FogExp2, Mesh, MeshNormalMaterial, NoToneMapping, Scene, Uniform, WebGLRenderer } from "three";
-import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
+import { FogExp2, Uniform } from "three";
+import { DemoProps } from '.';
 import { downloadArtifacts } from "./util/DownloadArtifacts";
 
-export function DemoCustomShaders(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
+export function DemoCustomShaders(props: DemoProps) {
+	let { renderer, camera, scene, gui } = props;
+
 	let uniformTime = new Uniform(0);
 
 	let splatLoader = new LumaSplatsLoader({ captureUrl: '' });

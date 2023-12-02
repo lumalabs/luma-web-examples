@@ -1,7 +1,8 @@
 import { AdaptiveDpr, OrbitControls, PerspectiveCamera } from '@react-three/drei';
+import { OrbitControls as OrbitControlsStdLib } from 'three-stdlib';
 import { Canvas, useThree } from '@react-three/fiber';
 import GUI from 'lil-gui';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import Markdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -17,8 +18,16 @@ import { DemoReactThreeFiber } from './DemoReactThreeFiber';
 import { DemoTransmission } from './DemoTransmission';
 import { DemoVR } from './DemoVR';
 
+export type DemoProps = {
+	renderer: WebGLRenderer,
+	scene: Scene,
+	camera: Camera,
+	controls: OrbitControlsStdLib,
+	gui: GUI,
+}
+
 type DemoFn =
-	(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI)
+	(props: DemoProps)
 		=> { dispose: () => void } | void;
 
 const demos = {
@@ -45,9 +54,11 @@ function DemoScene(props: {
 	onExpandToggle: (expanded: boolean) => void,
 }) {
 	let { scene, gl: renderer, camera } = useThree();
+	
 	let [gui, setGUI] = useState<GUI | null>(globalGUI);
 	let [autoRotate, setAutoRotate] = useState(true);
 	let [showUI, setShowUI] = useState(true);
+	let controlsRef = useRef<OrbitControlsStdLib | null>(null);
 
 	useEffect(() => {
 		globalGUI?.destroy();
@@ -88,8 +99,16 @@ function DemoScene(props: {
 
 		setGUI(globalGUI);
 
+		let demoProps = {
+			renderer,
+			scene,
+			camera,
+			controls: controlsRef.current!,
+			gui: globalGUI,
+		}
+
 		if (props.demoBasicFn) {
-			let demoDispose = props.demoBasicFn(renderer, scene, camera, globalGUI)?.dispose;
+			let demoDispose = props.demoBasicFn(demoProps)?.dispose;
 
 			return () => {
 				// call .dispose() on all objects in the scene
@@ -140,6 +159,7 @@ function DemoScene(props: {
 	return <>
 		<PerspectiveCamera />
 		<OrbitControls
+			ref={controlsRef}
 			autoRotate={autoRotate}
 			autoRotateSpeed={0.5}
 			enableDamping={true}
@@ -164,11 +184,25 @@ function App() {
 		return demoExists ? demoParam : demoKeys[0];
 	});
 	
-	const [showDocs, setShowDocs] = useState(true);
+	const [showDocs, setShowDocs] = useState(() => {
+		// get url parameter
+		const url = new URL(window.location.href);
+		return url.searchParams.get('hide-docs') == null;
+	});
+
+	useEffect(() => {
+		// update hide-docs url parameter
+		let url = new URL(window.location.href);
+		if (!showDocs) {
+			url.searchParams.set('hide-docs', '');
+		} else {
+			url.searchParams.delete('hide-docs');
+		}
+		window.history.replaceState({}, '', url.href);
+	}, [showDocs]);
 
 	const demoBasicFn = demoKey != null ? demos.basic[demoKey] : null;
 	const demoReactFn = demoKey != null ? demos.react[demoKey] : null;
-
 	const hasDemo = demoBasicFn != null || demoReactFn != null;
 	
 	useEffect(() => {

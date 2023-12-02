@@ -1,9 +1,9 @@
-import GUI from "lil-gui";
 import { LumaSplatsSemantics, LumaSplatsThree } from "@lumaai/luma-web";
-import { Camera, Scene, WebGLRenderer } from "three";
+import { DemoProps } from ".";
 import { loadEnvironment } from "./util/Environment";
 
-export function DemoBackgroundRemoval(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
+export function DemoBackgroundRemoval(props: DemoProps) {
+	let { renderer, scene, gui } = props;
 
 	let splats = new LumaSplatsThree({
 		// Jules Desbois La Femme à l’arc @HouseofJJD

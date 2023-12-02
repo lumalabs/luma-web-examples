@@ -1,7 +1,9 @@
 import { LumaSplatsThree } from "@lumaai/luma-web";
-import { Camera, Color, DoubleSide, Matrix4, Mesh, MeshStandardMaterial, PlaneGeometry, Quaternion, Scene, Texture, Vector3, WebGLRenderer } from "three";
+import { Color, DoubleSide, Mesh, MeshStandardMaterial, PlaneGeometry, Texture, Vector3 } from "three";
+import { DemoProps } from ".";
 
-export function DemoHelloWorld(renderer: WebGLRenderer, scene: Scene, camera: Camera) {
+export function DemoHelloWorld(props: DemoProps) {
+	let { renderer, camera, scene, gui } = props;
 
 	scene.background = new Color('white');
 

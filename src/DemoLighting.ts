@@ -1,10 +1,12 @@
-import GUI from "lil-gui";
 import { LumaSplatsThree } from "@lumaai/luma-web";
-import { Camera, Mesh, Scene, WebGLRenderer } from "three";
+import { Mesh } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 import { EnvironmentProbes } from "./util/EnvironmentProbes";
+import { DemoProps } from ".";
 
-export function DemoLighting(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
+export function DemoLighting(props: DemoProps) {
+	let { renderer, camera, scene, gui } = props;
+
 	let splats = new LumaSplatsThree({
 		// Arosa Hörnli - Switzerland @splnlss
 		source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',

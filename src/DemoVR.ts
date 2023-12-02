@@ -1,9 +1,10 @@
-import GUI from "lil-gui";
 import { LumaSplatsThree } from "@lumaai/luma-web";
-import { Camera, Scene, WebGLRenderer } from "three";
 import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
+import { DemoProps } from ".";
 
-export function DemoVR(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
+export function DemoVR(props: DemoProps) {
+	let { renderer, camera, scene, controls, gui } = props;
+
 	renderer.xr.enabled = true;
 
 	let vrButton = VRButton.createButton(renderer);

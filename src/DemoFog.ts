@@ -1,9 +1,10 @@
-import GUI from 'lil-gui';
 import { LumaSplatsThree } from "@lumaai/luma-web";
-import { Camera, Color, FogExp2, Scene, WebGLRenderer } from "three";
+import { Color, FogExp2 } from "three";
+import { DemoProps } from '.';
 import { EnvironmentProbes } from './util/EnvironmentProbes';
 
-export function DemoFog(renderer: WebGLRenderer, scene: Scene, camera: Camera, gui: GUI) {
+export function DemoFog(props: DemoProps) {
+	let { renderer, camera, scene, gui } = props;
 
 	// fog
 	scene.fog = new FogExp2(new Color(0xe0e1ff).convertLinearToSRGB(), 0.20);
