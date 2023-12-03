@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx esbuild src/index.tsx --bundle --outdir=dist --sourcemap --preserve-symlinks --loader:.md=text --minify",
     "dev": "npx esbuild src/index.tsx --bundle --outdir=dist --sourcemap --preserve-symlinks --watch --serve=localhost:3002 --servedir=. --loader:.md=text",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "deploy": "./misc/deploy.sh"
   },
   "author": "",
   "license": "ISC",
