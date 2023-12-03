@@ -15,13 +15,17 @@ const worldSources = [
 	// Arosa Hörnli - Switzerland @splnlss
 	{ source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2', scale: 1 },
 	// Fish reefs – Okinawa @BBCG
-	{ source: 'https://lumalabs.ai/capture/2b2112cd-9aa0-44f3-88b3-fde365066a3b', scale: 1 },
+	{ source: 'https://lumalabs.ai/capture/6331c1bb-3352-4c8e-b691-32b9b70ec768', scale: 1 },
 	// Glacial Erratic - Aspen, Colorado @VibrantNebula_Luma
-	{ source: 'https://lumalabs.ai/capture/f513900b-69fe-43c8-a72e-80b8d5a16fa4', scale: 1},
+	{ source: 'https://lumalabs.ai/capture/f513900b-69fe-43c8-a72e-80b8d5a16fa4', scale: 1 },
 	// Meta Girl (Oleg Lobykin) | Burning Man 2022 @VibrantNebula_Luma
-	{ source: 'https://lumalabs.ai/capture/2d57866c-83dc-47a6-a725-69c27f75ddb0', scale: 1},
+	// { source: 'https://lumalabs.ai/capture/2d57866c-83dc-47a6-a725-69c27f75ddb0', scale: 1 },
 	// Pinkerton Hot Springs @VibrantNebula_Luma
-	{ source: 'https://lumalabs.ai/capture/a5e98f35-3759-4cf5-a226-079b15c805da', scale: 1},
+	{ source: 'https://lumalabs.ai/capture/a5e98f35-3759-4cf5-a226-079b15c805da', scale: 1 },
+	// HOLLYWOOD @DroneFotoBooth
+	// { source: 'https://lumalabs.ai/capture/b5faf515-7932-4000-ab23-959fc43f0d94', scale: 1 },
+	// Metropolis @fotozhora_sk
+	{ source: 'https://lumalabs.ai/capture/d2d2badd-8bdd-4874-84f7-9df2aae27f29', scale: 1 },
 ];
 
 const innerGlobeRadius = 1;
@@ -57,6 +61,13 @@ export function DemoTransmission(props: DemoProps) {
 		ACESFilmicToneMapping,
 	}).name('Tone Mapping');
 	gui.add(state, 'animate').name('Animate');
+
+	// space key to toggle animation
+	window.addEventListener('keydown', (e) => {
+		if (e.code === 'Space') {
+			state.animate = !state.animate;
+		}
+	});
 
 	// add a refractive transmissive sphere
 	let glassGlobe = new Mesh(
@@ -243,52 +254,3 @@ function disableMSAA(target: WebGLRenderTarget | null) {
 		target.samples = 0;
 	}
 }
-
-	/*
-	let globeSplatClippingPlane = new Plane(new Vector3(0, 0, 1), 0);
-	let globeSplats = new LumaSplatsThree({
-		// Chateau de Menthon - Annecy @Yannick_Cerrutti 
-		source: 'https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c',
-		enableThreeShaderIntegration: true,
-		onBeforeRender: (renderer) => {
-			// disable MSAA on render targets (in this case the transmission render target)
-			// this improves splatting performance
-			let target = renderer.getRenderTarget();
-			if (target) {
-				target.samples = 0;
-			}
-			
-			let isInsideGlobe = innerSurfaceDistance < 0;
-
-			// only render in targets and not the canvas
-			globeSplats.preventDraw = isInsideGlobe ? (target != null) : (target == null)
-		}
-	});
-	globeSplats.material.clipping = false;
-	globeSplats.material.clippingPlanes = [globeSplatClippingPlane];
-	// disable transparency so the renderer considers it an opaque object
-	// opaque objects are rendered in the transmission pass (whereas transparent objects are not)
-	globeSplats.material.transparent = false;
-	scene.add(globeSplats);
-
-	let environmentSplats = new LumaSplatsThree({
-		// Arosa Hörnli - Switzerland @splnlss
-		source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',
-		loadingAnimationEnabled: false,
-		enableThreeShaderIntegration: false,
-		onBeforeRender: () => {
-			let isInsideGlobe = innerSurfaceDistance < 0;
-
-			environmentSplats.preventDraw = isInsideGlobe;
-		}
-	});
-	scene.add(environmentSplats);
-
-	// capture environment lighting
-	environmentSplats.onLoad = () => {
-		let capturedTexture = environmentSplats.captureCubeMap(renderer);
-		scene.environment = capturedTexture;
-		scene.background = capturedTexture;
-		scene.backgroundBlurriness = 0.5;
-	}
-	*/
