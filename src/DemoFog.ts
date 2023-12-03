@@ -25,13 +25,14 @@ export function DemoFog(props: DemoProps) {
 	};
 
 	splats.onLoad = () => {
-		let environmentMap = splats.captureCubeMap(renderer);
-		scene.environment = environmentMap;
-		let environmentProbes = new EnvironmentProbes(4);
-		environmentProbes.position.set(-3, 1, 0.25);
-		environmentProbes.rotation.y = Math.PI / 2;
-		environmentProbes.scale.setScalar(3);
-		scene.add(environmentProbes);
+		splats.captureCubemap(renderer).then(environmentMap => {
+			scene.environment = environmentMap;
+			let environmentProbes = new EnvironmentProbes(4);
+			environmentProbes.position.set(-3, 1, 0.25);
+			environmentProbes.rotation.y = Math.PI / 2;
+			environmentProbes.scale.setScalar(3);
+			scene.add(environmentProbes);
+		});
 	}
 
 	// gui for fog
