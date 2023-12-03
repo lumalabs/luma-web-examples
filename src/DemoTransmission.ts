@@ -1,9 +1,3 @@
-/**
- * Todo:
- * - Loads all splats in world sources, initialize all
- * - Capture lighting for all splats
- */
-
 import { LumaSplatsThree } from "@lumaai/luma-web";
 import { NoToneMapping, LinearToneMapping, CineonToneMapping, ReinhardToneMapping, ACESFilmicToneMapping, WebGLRenderer, WebGLRenderTarget, CubeTexture, FrontSide, MathUtils, Mesh, MeshPhysicalMaterial, PerspectiveCamera, SphereGeometry, Vector3 } from "three";
 import { DemoProps } from ".";
