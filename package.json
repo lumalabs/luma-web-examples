@@ -6,12 +6,13 @@
   "scripts": {
     "build": "npx esbuild src/index.tsx --bundle --outdir=dist --sourcemap --preserve-symlinks --loader:.md=text --minify",
     "dev": "npx esbuild src/index.tsx --bundle --outdir=dist --sourcemap --preserve-symlinks --watch --serve=localhost:3002 --servedir=. --loader:.md=text",
-    "start": "npm run dev"
+    "start": "npm run dev",
+    "deploy": "./misc/deploy.sh"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lumaai/luma-web": "^0.1.8",
+    "@lumaai/luma-web": "^0.1.9",
     "@react-three/drei": "^9.88.17",
     "@react-three/fiber": "^8.15.11",
     "@types/react": "^18.2.38",

@@ -90,7 +90,7 @@ scene.background = scene.fog.color;
 ## Scene Lighting
 [![scene-lighting-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/scene-lighting-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#scene-lighting)
 
-It's possible to illuminate three.js scenes with Luma splats. To do so, we can render a cubemap of the splats and use it as the scene environment. This is done by calling `captureCubeMap` on the splats object. We first wait for the splats to fully load before capturing the cubemap. To ensure the splats are fully rendered at the time of capture, we disable the loading animation.
+It's possible to illuminate three.js scenes with Luma splats. To do so, we can render a cubemap of the splats and use it as the scene environment. This is done by calling `captureCubemap()` on the splats object. We first wait for the splats to fully load before capturing the cubemap. To ensure the splats are fully rendered at the time of capture, we disable the loading animation.
 
 **[DemoLighting.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoLighting.ts)**
 ```ts
@@ -102,10 +102,11 @@ let splats = new LumaSplatsThree({
 });
 
 splats.onLoad = () => {
-	let capturedTexture = splats.captureCubeMap(renderer);
-	scene.environment = capturedTexture;
-	scene.background = capturedTexture;
-	scene.backgroundBlurriness = 0.5;
+	splats.captureCubemap(renderer).then((capturedTexture) => {
+		scene.environment = capturedTexture;
+		scene.background = capturedTexture;
+		scene.backgroundBlurriness = 0.5;
+	});
 }
 ```
 

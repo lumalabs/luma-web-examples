@@ -15,10 +15,11 @@ export function DemoLighting(props: DemoProps) {
 	});
 
 	splats.onLoad = () => {
-		let capturedTexture = splats.captureCubeMap(renderer);
-		scene.environment = capturedTexture;
-		scene.background = capturedTexture;
-		scene.backgroundBlurriness = 0.5;
+		splats.captureCubemap(renderer).then(capturedTexture => {
+			scene.environment = capturedTexture;
+			scene.background = capturedTexture;
+			scene.backgroundBlurriness = 0.5;
+		});
 	}
 
 	scene.add(splats);
