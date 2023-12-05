@@ -11,11 +11,11 @@ const worldSources = [
 	// Fish reefs – Okinawa @BBCG
 	{ source: 'https://lumalabs.ai/capture/6331c1bb-3352-4c8e-b691-32b9b70ec768', scale: 1 },
 	// Glacial Erratic - Aspen, Colorado @VibrantNebula_Luma
-	{ source: 'https://lumalabs.ai/capture/f513900b-69fe-43c8-a72e-80b8d5a16fa4', scale: 1 },
+	// { source: 'https://lumalabs.ai/capture/f513900b-69fe-43c8-a72e-80b8d5a16fa4', scale: 1 },
 	// Meta Girl (Oleg Lobykin) | Burning Man 2022 @VibrantNebula_Luma
 	// { source: 'https://lumalabs.ai/capture/2d57866c-83dc-47a6-a725-69c27f75ddb0', scale: 1 },
 	// Pinkerton Hot Springs @VibrantNebula_Luma
-	{ source: 'https://lumalabs.ai/capture/a5e98f35-3759-4cf5-a226-079b15c805da', scale: 1 },
+	// { source: 'https://lumalabs.ai/capture/a5e98f35-3759-4cf5-a226-079b15c805da', scale: 1 },
 	// HOLLYWOOD @DroneFotoBooth
 	// { source: 'https://lumalabs.ai/capture/b5faf515-7932-4000-ab23-959fc43f0d94', scale: 1 },
 	// Metropolis @fotozhora_sk
