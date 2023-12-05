@@ -278,7 +278,13 @@ function App() {
 							let match = href.match(pattern);
 							href = '#' + match![1];
 						}
-						return <a {...rest} href={href} />
+						let isAbsolute = /^https?:\/\//.test(href ?? '');
+						if (isAbsolute) {
+							// open in new tab
+							return <a {...rest} href={href} target='_blank' rel='noopener noreferrer' />
+						} else {
+							return <a {...rest} href={href} />
+						}
 					}
 				}}
 			>{readme}</Markdown>
