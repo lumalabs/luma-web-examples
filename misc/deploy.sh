@@ -11,6 +11,8 @@ set -e
 version_info=$(npm list --depth=0 | grep "@lumaai/luma-web")
 # Extract just the version number
 luma_package_version=$(echo $version_info | grep -oE '\b[0-9]+\.[0-9]+\.[0-9]+\b')
+# We only care about major.minor, so remove the patch version
+luma_package_version="${luma_package_version%.*}"
 # Get the latest git commit hash
 git_hash=$(git rev-parse --short HEAD)
 
