@@ -270,14 +270,13 @@ function App() {
 						)
 					},
 					a(props) {
-						// replace absolute links with local ones
 						let { href, ...rest } = props;
-						let pattern = /^https:\/\/cdn-luma.com\/[^#]+#(.*)/;
-						if (href && pattern.test(href)) {
-							let before = href;
-							let match = href.match(pattern);
-							href = '#' + match![1];
+						
+						// replace ./src links with github links for better readability
+						if (href?.startsWith('./src')) {
+							href = 'https://github.com/lumalabs/luma-web-examples/blob/main/' + href.slice(1);
 						}
+
 						let isAbsolute = /^https?:\/\//.test(href ?? '');
 						if (isAbsolute) {
 							// open in new tab
