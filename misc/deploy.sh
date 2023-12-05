@@ -28,6 +28,9 @@ then
 	fatal "You must run this script from the root directory of the project"
 fi
 
+# ensure tsc runs without error
+npx tsc
+
 # check if version is correct and if the user wants to continue
 echo -e "@lumaai/luma-web version: ${BOLD}${luma_package_version}${RESET}"
 doYouWantToContinue
