@@ -11,5 +11,8 @@
     "jsx": "react",
     "allowSyntheticDefaultImports": true,
     "strict": true,
+    "skipLibCheck": true,
+    // we use esbuild to compile and typescript for typechecking
+    "noEmit": true,
   }
 }
