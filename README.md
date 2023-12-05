@@ -1,4 +1,4 @@
-# [![luma-logo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/logo.svg)](https://lumalabs.ai) Luma WebGL Library
+# [![luma-logo](./assets/logo.svg)](https://lumalabs.ai) Luma WebGL Library
 
 `luma-web` is a [npm package](https://www.npmjs.com/package/@lumaai/luma-web) for rendering photoreal interactive scenes captured by the [Luma app](https://lumalabs.ai/). It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood. For these examples we'll use [Three.js](https://threejs.org/).
 
@@ -13,7 +13,7 @@
 - [VR](#vr)
 
 ## Getting Started
-[![hello-world-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/hello-world-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#getting-started)
+[![hello-world-demo](./assets/images/hello-world-preview.jpg)](./index.html#getting-started)
 
 To get started, install the package:
 
@@ -39,7 +39,7 @@ Then in your code, import the `LumaSplatsThree` class, create an instance with a
 - URL to a capture on [lumalabs.ai](https://lumalabs.ai)
 - path to a luma splats file or folder containing a luma splats artifacts
 
-**[DemoHelloWorld.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoHelloWorld.ts)**
+**[DemoHelloWorld.ts](./src/DemoHelloWorld.ts)**
 ```ts
 let splats = new LumaSplatsThree({
 	source: 'https://lumalabs.ai/capture/ca9ea966-ca24-4ec1-ab0f-af665cb546ff',
@@ -58,11 +58,11 @@ Splats will integrate with the three.js rendering pipeline and interact with oth
 - Set `enableThreeShaderIntegration: false` to disable integration with the three.js rendering pipeline. This will disable features like fog and tone mapping, but will improve performance
 
 ## Background Removal
-[![background-removal-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/background-removal-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#background-removal)
+[![background-removal-demo](./assets/images/background-removal-preview.jpg)](./index.html#background-removal)
 
 Luma scenes can include multiple semantic layers. By default, all layers are rendered. To filter layers, use the `semanticsMask` property. This is a bit mask, so for example, to show only the foreground layer, set `semanticsMask = LumaSplatsSemantics.FOREGROUND`. To show both foreground and background, set `semanticsMask = LumaSplatsSemantics.FOREGROUND | LumaSplatsSemantics.BACKGROUND`
 
-**[DemoBackgroundRemoval.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoBackgroundRemoval.ts)**
+**[DemoBackgroundRemoval.ts](./src/DemoBackgroundRemoval.ts)**
 ```ts
 import { LumaSplatsSemantics, LumaSplatsThree } from "luma-web";
 
@@ -77,22 +77,22 @@ splats.semanticsMask = LumaSplatsSemantics.FOREGROUND;
 ```
 
 ## Three Fog
-[![three.js-fog-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/three.js-fog-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#three-fog)
+[![three.js-fog-demo](./assets/images/three.js-fog-preview.jpg)](./index.html#three-fog)
 
 Luma splats integrate with the three.js rendering pipeline including features like tone mapping, color spaces and fog. Ensure `enableThreeShaderIntegration` is set to `true` (the default) and set the scene fog
 
-**[DemoFog.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoFog.ts)**
+**[DemoFog.ts](./src/DemoFog.ts)**
 ```ts
 scene.fog = new FogExp2(new Color(0xe0e1ff).convertLinearToSRGB(), 0.15);
 scene.background = scene.fog.color;
 ```
 
 ## Scene Lighting
-[![scene-lighting-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/scene-lighting-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#scene-lighting)
+[![scene-lighting-demo](./assets/images/scene-lighting-preview.jpg)](./index.html#scene-lighting)
 
 It's possible to illuminate three.js scenes with Luma splats. To do so, we can render a cubemap of the splats and use it as the scene environment. This is done by calling `captureCubemap()` on the splats object. We first wait for the splats to fully load before capturing the cubemap. To ensure the splats are fully rendered at the time of capture, we disable the loading animation.
 
-**[DemoLighting.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoLighting.ts)**
+**[DemoLighting.ts](./src/DemoLighting.ts)**
 ```ts
 let splats = new LumaSplatsThree({
 	source: 'https://lumalabs.ai/capture/4da7cf32-865a-4515-8cb9-9dfc574c90c2',
@@ -111,13 +111,13 @@ splats.onLoad = () => {
 ```
 
 ## Custom Shaders
-[![custom-shaders-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/custom-shaders-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#custom-shaders)
+[![custom-shaders-demo](./assets/images/custom-shaders-preview.jpg)](./index.html#custom-shaders)
 
 You can inject code into the splat shaders to customize them. To do this, call `setShaderHook({ ... })` on your splat and provide GLSL functions, uniforms and globals to override default behavior. For example, in this demo we apply a transform matrix to each splat by setting the vertex shader hook `getSplatTransform`. It generates a transform matrix for time-varying sinusoidal offset to the y coordinate.
 
 The syntax for shader hook function is a GLSL function without a function name. The GLSL function arguments and return are given as documentation on the shader hook fields (see below).
 
-**[DemoCustomShaders.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoCustomShaders.ts)**
+**[DemoCustomShaders.ts](./src/DemoCustomShaders.ts)**
 ```ts
 splats.setShaderHooks({
 	vertexShaderHooks: {
@@ -201,11 +201,11 @@ type LumaShaderHooks = {
 ```
 
 ## React Three Fiber
-[![react-three-fiber-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/react-three-fiber-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#react-three-fiber)
+[![react-three-fiber-demo](./assets/images/react-three-fiber-preview.jpg)](./index.html#react-three-fiber)
 
 Luma splats can be used with [React Three Fiber](https://docs.pmnd.rs/), a React renderer for Three.js. To do so, we need to extend R3F to include the `LumaSplatsThree` class. This is done by calling `extend` with the class and a name (in this case `LumaSplats` which will be used as the component name). If using TypeScript, we also need to declare the component type.
 
-**[DemoReactThreeFiber.tsx](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoReactThreeFiber.tsx)**
+**[DemoReactThreeFiber.tsx](./src/DemoReactThreeFiber.tsx)**
 ```typescript
 import { Object3DNode, extend } from '@react-three/fiber';
 import { LumaSplatsThree } from 'luma-web';
@@ -231,13 +231,13 @@ function Scene() {
 ```
 
 ## Transmission
-[![transmission-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/transmission-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#transmission)
+[![transmission-demo](./assets/images/transmission-preview.jpg)](./index.html#transmission)
 
 Splats can be used in combination with three.js transmission effects, however some care should be taken to make this work. Splats are considered `transparent` materials in three.js which means by default they're not rendered in the transmissive pass, so initially you won't see your splats in transmissive materials. To fix we set `splats.material.transparent = false;`.
 
 In this example, we draw two splat scenes, one inside a refractive globe and the other outside. To make this work, we want the inner splat scene to _only_ render to the transmission buffer and the outer to the canvas. We do this by checking the render target before rendering and selectively disabling.
 
-**[DemoTransmission.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoTransmission.ts)**
+**[DemoTransmission.ts](./src/DemoTransmission.ts)**
 ```typescript
 // inner splat
 let globeSplats = new LumaSplatsThree({
@@ -295,11 +295,11 @@ scene.add(glassSphere);
 ```
 
 ## VR
-[![vr-demo](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/assets/images/vr-preview.jpg)](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/index.html#vr)
+[![vr-demo](./assets/images/vr-preview.jpg)](./index.html#vr)
 
 Viewing your splats in VR is as simple as enabling XR in three.js and adding a VR button. View this demo with a VR headset (or through a headset browser) and click "Enter VR"! It will work best on PC VR, standalone VR tends to struggle with splats presently
 
-**[DemoVR.ts](https://cdn-luma.com/public/lumalabs.ai/luma-web-library/src/DemoVR.ts)**
+**[DemoVR.ts](./src/DemoVR.ts)**
 ```typescript
 import { VRButton } from "three/examples/jsm/webxr/VRButton.js";
 
