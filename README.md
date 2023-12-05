@@ -30,7 +30,7 @@ import { LumaSplatsThree } from "luma-web";
 Or if using a browser, include the script:
 
 ```html
-<script src="https://unpkg.com/@lumai/luma-web"></script>
+<script src="https://unpkg.com/@lumaai/luma-web"></script>
 ```
 
 Then in your code, import the `LumaSplatsThree` class, create an instance with a source, and add it to your scene.
