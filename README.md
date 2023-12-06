@@ -151,7 +151,7 @@ type LumaShaderHooks = {
 	vertexShaderHooks?: {
 		additionalUniforms?: { [name: string]: [UniformTypeGLSL, { value: any }] },
 
-		/** Inject into global space (for example, to add varying) */
+		/** Inject into global space (for example, to add a varying) */
 		additionalGlobals?: string,
 
 		/**
@@ -187,7 +187,7 @@ type LumaShaderHooks = {
 	fragmentShaderHooks?: {
 		additionalUniforms?: { [name: string]: [UniformTypeGLSL, { value: any }] },
 
-		/** Inject into global space (for example, to add varying) */
+		/** Inject into global space (for example, to add a varying) */
 		additionalGlobals?: string,
 
 		/**
