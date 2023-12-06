@@ -9,7 +9,7 @@
 - [Scene Lighting](#scene-lighting)
 - [Custom Shaders](#custom-shaders)
 - [React Three Fiber](#react-three-fiber)
-- [Transparency](#transparency)
+- [Transmission](#transmission)
 - [VR](#vr)
 
 ## Getting Started
