@@ -113,7 +113,7 @@ splats.onLoad = () => {
 ## Custom Shaders
 [![custom-shaders-demo](./assets/images/custom-shaders-preview.jpg)](#custom-shaders)
 
-You can inject code into the splat shaders to customize them. To do this, call `setShaderHook({ ... })` on your splat and provide GLSL functions, uniforms and globals to override default behavior. For example, in this demo we apply a transform matrix to each splat by setting the vertex shader hook `getSplatTransform`. It generates a transform matrix for time-varying sinusoidal offset to the y coordinate.
+You can inject code into the splat shaders to customize them. To do this, call `setShaderHooks({ ... })` on your splat and provide GLSL functions, uniforms and globals to override default behavior. For example, in this demo we apply a transform matrix to each splat by setting the vertex shader hook `getSplatTransform`. It generates a transform matrix for time-varying sinusoidal offset to the y coordinate.
 
 The syntax for shader hook function is a GLSL function without a function name. The GLSL function arguments and return are given as documentation on the shader hook fields (see below).
 
