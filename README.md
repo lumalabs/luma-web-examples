@@ -2,6 +2,9 @@
 
 `luma-web` is a [npm package](https://www.npmjs.com/package/@lumaai/luma-web) for rendering photoreal interactive scenes captured by the [Luma app](https://lumalabs.ai/). It includes `LumaSplatsWebGL`, which is a WebGL-only gaussian splatting implementation designed to be integrated with 3D frameworks, and `LumaSplatsThree`, which is a Three.js implementation that uses `LumaSplatsWebGL` under the hood. For these examples we'll use [Three.js](https://threejs.org/).
 
+
+**Request features and report bugs on our [![github-logo](./assets/images/github-mark-16.svg) GitHub repo](github.com/lumalabs/luma-web-library)** 
+
 ### Contents
 - [Getting Started](#getting-started)
 - [Background Removal](#background-removal)
