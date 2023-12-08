@@ -27,7 +27,7 @@ npm install @lumaai/luma-web
 And import the `LumaSplatsThree` class:
 
 ```ts
-import { LumaSplatsThree } from "luma-web";
+import { LumaSplatsThree } from "@lumaai/luma-web";
 ```
 
 Or if using a browser, include the script:
@@ -67,7 +67,7 @@ Luma scenes can include multiple semantic layers. By default, all layers are ren
 
 **[DemoBackgroundRemoval.ts](./src/DemoBackgroundRemoval.ts)**
 ```ts
-import { LumaSplatsSemantics, LumaSplatsThree } from "luma-web";
+import { LumaSplatsSemantics, LumaSplatsThree } from "@lumaai/luma-web";
 
 let splats = new LumaSplatsThree({
 	source: 'https://lumalabs.ai/capture/1b5f3e33-3900-4398-8795-b585ae13fd2d',
@@ -211,7 +211,7 @@ Luma splats can be used with [React Three Fiber](https://docs.pmnd.rs/), a React
 **[DemoReactThreeFiber.tsx](./src/DemoReactThreeFiber.tsx)**
 ```typescript
 import { Object3DNode, extend } from '@react-three/fiber';
-import { LumaSplatsThree } from 'luma-web';
+import { LumaSplatsThree } from '@lumaai/luma-web';
 
 // Make LumaSplatsThree available to R3F
 extend( { LumaSplats: LumaSplatsThree } );
