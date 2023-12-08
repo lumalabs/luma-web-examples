@@ -1,5 +1,5 @@
 import { Object3DNode, extend } from '@react-three/fiber';
-import { LumaSplatsThree } from "@lumaai/luma-web"
+import { LumaSplatsThree } from "@lumaai/luma-web";
 
 // Make LumaSplatsThree available to R3F
 extend( { LumaSplats: LumaSplatsThree } );
