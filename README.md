@@ -211,7 +211,7 @@ Luma splats can be used with [React Three Fiber](https://docs.pmnd.rs/), a React
 **[DemoReactThreeFiber.tsx](./src/DemoReactThreeFiber.tsx)**
 ```typescript
 import { Object3DNode, extend } from '@react-three/fiber';
-import { LumaSplatsThree } from 'luma-web';
+import { LumaSplatsThree, LumaSplatsSemantics } from "@lumaai/luma-web";
 
 // Make LumaSplatsThree available to R3F
 extend( { LumaSplats: LumaSplatsThree } );
