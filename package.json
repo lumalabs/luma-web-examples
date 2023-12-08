@@ -12,7 +12,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@lumaai/luma-web": "^0.1.9",
+    "@lumaai/luma-web": "^0.1.15",
     "@react-three/drei": "^9.88.17",
     "@react-three/fiber": "^8.15.11",
     "@types/react": "^18.2.38",
