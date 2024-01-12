@@ -18,25 +18,68 @@
 ## Getting Started
 [![hello-world-demo](./assets/images/hello-world-preview.jpg)](#getting-started)
 
-To get started, install the package:
+The simplest way to get started is to create a .html file and load the library from a CDN. Here we load three.js and the luma library and setup a minimal scene with mouse controls. Copy and paste this into a file named `index.html` and open it in your browser (no server needed).
+
+**[minimal.html](./src/minimal.html)**
+```html
+<canvas></canvas>
+<script type="importmap">
+{
+	"imports": {
+		"three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+		"three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/",
+		"@lumaai/luma-web": "https://unpkg.com/@lumaai/luma-web@0.1.17/dist/library/luma-web.module.js"
+	}
+}
+</script>
+<script type="module">
+import { WebGLRenderer, PerspectiveCamera, Scene } from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { LumaSplatsThree } from '@lumaai/luma-web';
+
+let canvas = document.querySelector('canvas');
+
+let renderer = new WebGLRenderer({
+	canvas: canvas,
+	antialias: false
+});
+
+renderer.setSize(window.innerWidth, window.innerHeight, false);
+
+let scene = new Scene();
+
+let camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+camera.position.z = 2;
+
+let controls = new OrbitControls(camera, canvas);
+
+let splat = new LumaSplatsThree({
+	source: 'https://lumalabs.ai/capture/d80d4876-cf71-4b8a-8b5b-49ffac44cd4a'
+});
+scene.add(splat);
+
+renderer.setAnimationLoop(() => {
+	controls.update();
+	renderer.render(scene, camera);
+});
+</script>
+```
+
+Alternatively you can install the library from npm:
 
 ```bash
 npm install @lumaai/luma-web
 ```
 
-And import the `LumaSplatsThree` class:
+**Usage**
+
+Import the `LumaSplatsThree` class:
 
 ```ts
 import { LumaSplatsThree } from "@lumaai/luma-web";
 ```
 
-Or if using a browser, include the script:
-
-```html
-<script src="https://unpkg.com/@lumaai/luma-web"></script>
-```
-
-Then in your code, import the `LumaSplatsThree` class, create an instance with a source, and add it to your scene.
+Then create an instance of `LumaSplatsThree` with a splat `source`, and add it to your scene.
 
 `source` can be either of:
 - URL to a capture on [lumalabs.ai](https://lumalabs.ai)
@@ -46,11 +89,11 @@ Then in your code, import the `LumaSplatsThree` class, create an instance with a
 ```ts
 let splats = new LumaSplatsThree({
 	source: 'https://lumalabs.ai/capture/ca9ea966-ca24-4ec1-ab0f-af665cb546ff',
+	// controls the particle entrance animation
+	particleRevealEnabled: true,
 });
 
 scene.add(splats);
-
-scene.add(createText());
 ```
 
 Splats will integrate with the three.js rendering pipeline and interact with other objects via depth testing. However, splats do not currently write to the depth buffer themselves.
