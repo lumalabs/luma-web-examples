@@ -12,6 +12,8 @@ export function DemoHelloWorld(props: DemoProps) {
 		source: 'https://lumalabs.ai/capture/ca9ea966-ca24-4ec1-ab0f-af665cb546ff',
 		// we disable full three.js for performance
 		enableThreeShaderIntegration: false,
+		// particle entrance animation
+		particleRevealEnabled: true,
 	});
 
 	scene.add(splats);
