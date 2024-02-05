@@ -52,6 +52,7 @@ let camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0
 camera.position.z = 2;
 
 let controls = new OrbitControls(camera, canvas);
+controls.enableDamping = true;
 
 let splat = new LumaSplatsThree({
 	source: 'https://lumalabs.ai/capture/d80d4876-cf71-4b8a-8b5b-49ffac44cd4a'

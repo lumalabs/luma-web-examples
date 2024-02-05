@@ -40,6 +40,7 @@
 		camera.position.z = 2;
 
 		let controls = new OrbitControls(camera, renderer.domElement);
+		controls.enableDamping = true;
 
 		let scene = new Scene();
 
