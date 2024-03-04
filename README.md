@@ -28,7 +28,7 @@ The simplest way to get started is to create a .html file and load the library f
 	"imports": {
 		"three": "https://unpkg.com/three@0.157.0/build/three.module.js",
 		"three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/",
-		"@lumaai/luma-web": "https://unpkg.com/@lumaai/luma-web@0.1.17/dist/library/luma-web.module.js"
+		"@lumaai/luma-web": "https://unpkg.com/@lumaai/luma-web@0.2.0/dist/library/luma-web.module.js"
 	}
 }
 </script>
