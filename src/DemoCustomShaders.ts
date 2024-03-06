@@ -8,7 +8,6 @@ export function DemoCustomShaders(props: DemoProps) {
 
 	let uniformTime = new Uniform(0);
 
-	let splatLoader = new LumaSplatsLoader({ captureUrl: '' });
 	let splats = new LumaSplatsThree({
 		// Chateau de Menthon - Annecy @Yannick_Cerrutti
 		source: `https://lumalabs.ai/capture/da82625c-9c8d-4d05-a9f7-3367ecab438c`,
@@ -85,12 +84,6 @@ export function DemoCustomShaders(props: DemoProps) {
 	layersFolder.add(layersEnabled, 'foreground').onChange(updateSemanticMask);
 	layersFolder.hide();
 
-	splatLoader.semanticsReady.then(value => {
-		if (value != null) {
-			layersFolder.show();
-		}
-	});
-
 	// fog
 	scene.fog = new FogExp2(0xEEEEEE, 0.05);
 	scene.background = scene.fog.color;
@@ -98,8 +91,6 @@ export function DemoCustomShaders(props: DemoProps) {
 	// gui for fog
 	gui.add(scene.fog, 'density', 0, 0.3).name('fog density');
 	gui.addColor(scene.fog, 'color').name('fog color');
-
-	gui.add({downloadArtifacts: () => downloadArtifacts(splatLoader)}, 'downloadArtifacts');
 
 	return {
 		dispose: () => {
